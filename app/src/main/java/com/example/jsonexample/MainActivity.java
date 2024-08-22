@@ -1,10 +1,16 @@
 package com.example.jsonexample;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.VideoView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
@@ -21,13 +27,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // Image construction
         ImageView imageView = findViewById(R.id.imageView);
         String imageUrl = "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/45b4efeb5d2c4d29970344ae165615ab/FixedFBFinal.jpg\n";
 
         Picasso.get()
                 .load(imageUrl)
                 .into(imageView);
+
+        // Video View construction
+        VideoView videoView = findViewById(R.id.videoView);
+        String videoUrl = "https://vid.tasty.co/output/121934/hls24_1546897597.m3u8";
+
+        Uri uri = Uri.parse(videoUrl);
+        videoView.setVideoURI(uri);
+
+        // Add media controls for play/pause
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+        videoView.setMediaController(mediaController);
+        videoView.start();
 
         // Create an instance of AsyncHttpClient
         AsyncHttpClient client = new AsyncHttpClient();
