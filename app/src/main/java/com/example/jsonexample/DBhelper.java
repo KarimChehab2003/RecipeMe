@@ -23,50 +23,50 @@ public class DBhelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table user (id int PRIMARY KEY AUTOINCREMENT ,  name TEXT , email TEXT , password TEXT)");
+   db.execSQL("create table user (id int PRIMARY KEY AUTOINCREMENT ,  name TEXT , email TEXT , password TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("drop table if exists user");
-        onCreate(db);
+db.execSQL("drop table if exists user");
+onCreate(db);
     }
-    // sign up
-    public long createNewUser (String name,String email,String password){
+// sign up
+public long createNewUser (String name,String email,String password){
 
-        ContentValues data = new ContentValues();
+    ContentValues data = new ContentValues();
 
-        data.put("name",name);
-        data.put("email",email);
-        data.put("password",password);
+    data.put("name",name);
+    data.put("email",email);
+    data.put("password",password);
 
 
-        userDatabase = getWritableDatabase();
-        long id  = userDatabase.insert("user",null,data);
-        return id;
-    }
-    // for login
-    public User getUser(String email,String password){
+    userDatabase = getWritableDatabase();
+    long id  = userDatabase.insert("user",null,data);
+return id;
+}
+// for login
+public User getUser(String email,String password){
         User retrieved = null;
 
         userDatabase = getReadableDatabase();
 
-        Cursor rtdata =userDatabase.rawQuery("select * from user where email = ? and password = ?" , new String []{email,password});
+    Cursor rtdata =userDatabase.rawQuery("select * from user where email = ? and password = ?" , new String []{email,password});
 
 
-        if(rtdata.getCount() ==0){
-            // no users with these information
+    if(rtdata.getCount() ==0){
+        // no users with these information
 
-            return null;
-        }else{
+return null;
+    }else{
 
-            retrieved = new User(rtdata.getLong(0), rtdata.getString(1),rtdata.getString(2),rtdata.getString(3));
+        retrieved = new User(rtdata.getLong(0), rtdata.getString(1),rtdata.getString(2),rtdata.getString(3));
 
 
-        }
+    }
 
         return retrieved;
 
-    }
+}
 
 }

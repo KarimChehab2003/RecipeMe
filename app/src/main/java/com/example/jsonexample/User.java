@@ -23,6 +23,8 @@ public class User {
 
 
     public User(String name, String email, String password , DBhelper dbh) {
+
+
         this.id = dbh.createNewUser(name,email,password);
         this.name = name;
         this.email = email;
