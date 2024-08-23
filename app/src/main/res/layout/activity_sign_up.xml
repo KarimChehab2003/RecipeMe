@@ -97,6 +97,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/signup_btn_orange"
+            android:onClick="signup_pressed"
             android:text="SignUp"
             android:textColor="#ffffff"
             android:textSize="24sp"
