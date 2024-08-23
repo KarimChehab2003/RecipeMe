@@ -83,10 +83,7 @@ public class SignUp extends AppCompatActivity {
 
 
 
-        User loggedin = new User(username.getText().toString(),
-                email.getText().toString(),
-                password.getText().toString(),
-                dbh);
+dbh.createNewUser(username.getText().toString(),email.getText().toString(),password.getText().toString());
 
 
         Toast.makeText(this, "User successfully created", Toast.LENGTH_SHORT).show();

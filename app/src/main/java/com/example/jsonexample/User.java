@@ -9,7 +9,7 @@ public class User {
     private String password;
 
 
-    // in case of login
+
 
 
     public User(long id, String name, String email, String password) {
@@ -19,15 +19,4 @@ public class User {
         this.password = password;
     }
 
-    //in case of signup
-
-
-    public User(String name, String email, String password , DBhelper dbh) {
-
-
-        this.id = dbh.createNewUser(name,email,password);
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
 }
