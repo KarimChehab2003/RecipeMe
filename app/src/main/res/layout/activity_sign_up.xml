@@ -8,37 +8,25 @@
     tools:context=".Welcome">
 
     <ImageView
-        android:id="@+id/imageView_food"
-        android:layout_width="339dp"
-        android:layout_height="299dp"
-        android:layout_marginTop="8dp"
+        android:id="@+id/imageView_recipe"
+        android:layout_width="303dp"
+        android:layout_height="277dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_login"
+        app:layout_constraintTop_toBottomOf="@+id/textView_signup"
         app:layout_goneMarginTop="10dp"
-        app:srcCompat="@drawable/food" />
-
-    <TextView
-        android:id="@+id/textView_login"
-        android:layout_width="166dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="112dp"
-        android:text="LOGIN"
-        android:textColor="#df7154"
-        android:textSize="55sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/recipe" />
 
     <LinearLayout
-        android:layout_width="408dp"
-        android:layout_height="317dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="406dp"
+        android:layout_height="345dp"
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_food">
+        app:layout_constraintTop_toBottomOf="@+id/imageView_recipe">
 
         <EditText
             android:id="@+id/editText_username"
@@ -51,6 +39,21 @@
             android:background="@drawable/background_signup_edittext"
             android:ems="10"
             android:hint="Username"
+            android:inputType="text"
+            android:paddingStart="20dp"
+            android:textColorHint="#464646" />
+
+        <EditText
+            android:id="@+id/editText_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/background_signup_edittext"
+            android:ems="10"
+            android:hint="Email"
             android:inputType="text"
             android:paddingStart="20dp"
             android:textColorHint="#464646" />
@@ -70,17 +73,23 @@
             android:paddingStart="20dp"
             android:textColorHint="#464646" />
 
-        <TextView
-            android:id="@+id/textView_forgotPassword"
+        <EditText
+            android:id="@+id/editText_repassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="8dp"
-            android:text="Forgot Your Password?"
-            android:textAlignment="center" />
+            android:background="@drawable/background_signup_edittext"
+            android:ems="10"
+            android:hint="RePassword"
+            android:inputType="text"
+            android:paddingStart="20dp"
+            android:textColorHint="#464646" />
 
         <Button
-            android:id="@+id/button_login"
+            android:id="@+id/button_signup"
             style="@android:style/Widget.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,12 +97,24 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/signup_btn_orange"
-            android:text="Login"
+            android:text="SignUp"
             android:textColor="#ffffff"
             android:textSize="24sp"
             android:textStyle="bold"
             tools:layout_marginBottom="8dp" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_signup"
+        android:layout_width="229dp"
+        android:layout_height="86dp"
+        android:layout_marginTop="88dp"
+        android:text="SIGNUP"
+        android:textColor="#df7154"
+        android:textSize="55sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
