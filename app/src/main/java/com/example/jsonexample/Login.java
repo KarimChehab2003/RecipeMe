@@ -35,7 +35,10 @@ public class Login extends AppCompatActivity {
         if( loggedin == null){
             Toast.makeText(this, "No users with such info", Toast.LENGTH_SHORT).show();
         }else{
+
             //intent to next page with the made user
+
+
             Toast.makeText(this, "logged in successfully", Toast.LENGTH_SHORT).show();
 
         }

@@ -78,15 +78,12 @@ public class SignUp extends AppCompatActivity {
             return; // in case of incorrect information
         }
 
-
-
         dbh.createNewUser(username.getText().toString(),email.getText().toString(),password.getText().toString());
 
+        Toast.makeText(this,"Account Created Successfully",Toast.LENGTH_LONG).show();
 
-        Toast.makeText(this, "User successfully created", Toast.LENGTH_SHORT).show();
-
-        // intent to the next page with registered use
-
+        Intent intent = new Intent(this,Login.class);
+        startActivity(intent);
 
     }
 

@@ -66,7 +66,7 @@
             android:background="@drawable/background_signup_edittext"
             android:ems="10"
             android:hint="Password"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:paddingStart="20dp"
             android:textColorHint="#464646" />
 
