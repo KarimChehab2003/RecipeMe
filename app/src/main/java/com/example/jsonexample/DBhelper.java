@@ -16,14 +16,13 @@ public class DBhelper extends SQLiteOpenHelper {
     SQLiteDatabase userDatabase;
 
 
-    public DBhelper(@Nullable Context context) {
+    public DBhelper(Context context) {
         super(context, databaseName, null, 1);
-
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table user (id int PRIMARY KEY AUTOINCREMENT ,  name TEXT , email TEXT , password TEXT)");
+        db.execSQL("create table user (userID INTEGER Primary key Autoincrement , name text , email text , password text)");
     }
 
     @Override
@@ -31,8 +30,9 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL("drop table if exists user");
         onCreate(db);
     }
+
     // sign up
-    public long createNewUser (String name,String email,String password){
+    public void createNewUser (String name,String email,String password){
 
         ContentValues data = new ContentValues();
 
@@ -40,12 +40,11 @@ public class DBhelper extends SQLiteOpenHelper {
         data.put("email",email);
         data.put("password",password);
 
-
         userDatabase = getWritableDatabase();
-        long id  = userDatabase.insert("user",null,data);
+        userDatabase.insert("user",null,data);
         userDatabase.close();
-        return id;
     }
+
     // for login
     public User getUser(String email,String password){
         User retrieved = null;
@@ -54,24 +53,17 @@ public class DBhelper extends SQLiteOpenHelper {
 
         Cursor rtdata =userDatabase.rawQuery("select * from user where email = ? and password = ?" , new String []{email,password});
 
-
         if(rtdata.getCount() ==0){
             // no users with these information
-
             return null;
         }else{
-
             if (rtdata.moveToFirst()) {
                 retrieved = new User(rtdata.getLong(0), rtdata.getString(1), rtdata.getString(2), rtdata.getString(3));
             }
-
-
-
         }
         rtdata.close();
         userDatabase.close();
         return retrieved;
 
     }
-
 }

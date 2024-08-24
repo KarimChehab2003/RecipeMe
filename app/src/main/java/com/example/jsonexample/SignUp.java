@@ -69,11 +69,8 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(this,"your password should include symbols ",Toast.LENGTH_LONG).show();
                     break;
                 }
-
-
             }
-               }
-
+           }
 
            }
 
@@ -83,16 +80,12 @@ public class SignUp extends AppCompatActivity {
 
 
 
-dbh.createNewUser(username.getText().toString(),email.getText().toString(),password.getText().toString());
+        dbh.createNewUser(username.getText().toString(),email.getText().toString(),password.getText().toString());
 
 
         Toast.makeText(this, "User successfully created", Toast.LENGTH_SHORT).show();
 
         // intent to the next page with registered use
-
-
-
-
 
 
     }
