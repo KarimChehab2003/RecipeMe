@@ -25,8 +25,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.recipeName.setText(items.get(position).name);
-        holder.recipeTime.setText(items.get(position).time);
-        holder.recipeReview.setText(items.get(position).score.toString());
+        holder.recipeTime.setText(items.get(position).time + " mins");
+        holder.recipeReview.setText(String.valueOf(items.get(position).score));
         Picasso.get()
                 .load(items.get(position).imageURL)
                 .into(holder.recipeImage);
