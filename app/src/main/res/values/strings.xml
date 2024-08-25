@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">JSONExample</string>
-    <string name = "User_name">Login.loggedin.Getname()</string>
+    <string name="app_name">RecipeMe</string>
+
 </resources>
