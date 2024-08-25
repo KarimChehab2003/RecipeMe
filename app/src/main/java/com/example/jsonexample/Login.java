@@ -1,5 +1,6 @@
 package com.example.jsonexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,7 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class Login extends AppCompatActivity {
-
+    public User loggedin;
     DBhelper dbh = new DBhelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +31,17 @@ public class Login extends AppCompatActivity {
         EditText email = (EditText) findViewById(R.id.editText_email);
         EditText password= (EditText) findViewById(R.id.editText_password);
 
-        User loggedin = dbh.getUser(email.getText().toString(),password.getText().toString());
+        this.loggedin = dbh.getUser(email.getText().toString(),password.getText().toString());
 
         if( loggedin == null){
             Toast.makeText(this, "No users with such info", Toast.LENGTH_SHORT).show();
         }else{
 
             //intent to next page with the made user
+            Intent intent = new Intent(this,MainPage.class);
+            startActivity(intent);
 
-
-            Toast.makeText(this, "logged in successfully", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "logged in successfully", Toast.LENGTH_SHORT).show();
 
         }
     }

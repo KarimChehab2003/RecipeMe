@@ -1,13 +1,11 @@
 package com.example.jsonexample;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
 import android.widget.ImageView;
-import android.widget.MediaController;
-import android.widget.VideoView;
-
+import android.widget.TextView;
+import com.example.jsonexample.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,14 +16,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 import com.squareup.picasso.Picasso;
-
-public class MainActivity extends AppCompatActivity {
+public class MainPage extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainpagemenu , menu);
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         // Image construction
         ImageView imageView = findViewById(R.id.imageView);
@@ -34,19 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Picasso.get()
                 .load(imageUrl)
                 .into(imageView);
-
-        // Video View construction
-        VideoView videoView = findViewById(R.id.videoView);
-        String videoUrl = "https://vid.tasty.co/output/121934/hls24_1546897597.m3u8";
-
-        Uri uri = Uri.parse(videoUrl);
-        videoView.setVideoURI(uri);
-
-        // Add media controls for play/pause
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(videoView);
-        videoView.setMediaController(mediaController);
-        videoView.start();
 
         // Create an instance of AsyncHttpClient
         AsyncHttpClient client = new AsyncHttpClient();
@@ -78,4 +70,5 @@ public class MainActivity extends AppCompatActivity {
 
                 });
     }
+
 }
