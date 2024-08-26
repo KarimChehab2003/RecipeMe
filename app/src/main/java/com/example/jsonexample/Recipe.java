@@ -1,6 +1,8 @@
 package com.example.jsonexample;
 
+
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;

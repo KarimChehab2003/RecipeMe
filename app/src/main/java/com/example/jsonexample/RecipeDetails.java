@@ -33,12 +33,15 @@ public class RecipeDetails extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
         //get Clicked on recipe
         Intent intent = getIntent();
         Recipe recipe = (Recipe) intent.getSerializableExtra("recipe");
         //declare views
         VideoView video = findViewById(R.id.recipeDetailsVideo);
         TextView recipeName = findViewById(R.id.recipeDetailsName);
+
         TextView recipeDesc = findViewById(R.id.recipeDetailsDesc);
         TextView recipeTime = findViewById(R.id.recipeDetailsNutritionsTitle);
         TableLayout nutritionFacts = findViewById(R.id.nutritionTable);
