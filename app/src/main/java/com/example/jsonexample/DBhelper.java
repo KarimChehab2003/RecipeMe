@@ -23,11 +23,19 @@ public class DBhelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table user (userID INTEGER Primary key Autoincrement , name text , email text , password text)");
-    }
+// creating history table
+
+        db.execSQL("create table history ( recipeID INTEGER  , userID INTEGER ,recipeName text ,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
+// creating favorites table
+        db.execSQL("create table favorites ( recipeID INTEGER , userID INTEGER , recipeName text ,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
+
+        }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("drop table if exists user");
+        db.execSQL("drop table if exists history");
+        db.execSQL("drop table if exists favorites");
         onCreate(db);
     }
 
@@ -66,4 +74,47 @@ public class DBhelper extends SQLiteOpenHelper {
         return retrieved;
 
     }
+
+    public void addToHistory (User user , long recipeID,String recipeName){
+
+        ContentValues recipeData = new ContentValues();
+
+        recipeData.put("recipeID",recipeID);
+        recipeData.put("userID",user.getId());
+        recipeData.put("recipeName", recipeName);
+
+        userDatabase = getWritableDatabase();
+        userDatabase.insert("history",null,recipeData);
+        userDatabase.close();
+
+
+    }
+
+    public void addToFavorites (User user , long recipeID,String recipeName){
+
+        ContentValues recipeData = new ContentValues();
+
+        recipeData.put("recipeID",recipeID);
+        recipeData.put("userID",user.getId());
+        recipeData.put("recipeName", recipeName);
+
+        userDatabase = getWritableDatabase();
+        userDatabase.insert("favorites",null,recipeData);
+        userDatabase.close();
+
+
+    }
+
+    public void removeFromHistory (User user, long recipeID){
+        userDatabase=getWritableDatabase();
+        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{user.getId(),recipeID});
+
+    }
+
+    public void removeFromFavorites (User user, long recipeID){
+        userDatabase=getWritableDatabase();
+        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{user.getId(),recipeID});
+
+    }
+
 }
