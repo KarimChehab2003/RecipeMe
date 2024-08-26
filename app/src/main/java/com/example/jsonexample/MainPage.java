@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
-import java.sql.SQLOutput;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,12 +49,13 @@ enum suggestionIngredients {
     FISH;
 }
 
-public class MainPage extends AppCompatActivity {
+public class MainPage extends AppCompatActivity implements RecyclerViewInterface {
 
     private static final String TAG = "MainActivity";
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private List<Recipe> recipeList;
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,7 +71,6 @@ public class MainPage extends AppCompatActivity {
         Intent intent = getIntent();
         String currentUserName = intent.getStringExtra("currentUserName");
         String currentUserID = intent.getStringExtra("currentUserID");
-        System.out.println(currentUserName +" " +currentUserID + " THIS IS WHERE WE LOOOOOOOOOOOOOOOOOOOOOK");
 
         // Setting up textBox and searchButton
         TextView searchTextBox = findViewById(R.id.textQuery);
@@ -81,7 +82,7 @@ public class MainPage extends AppCompatActivity {
 
         // Initialize recipe list and adapter
         recipeList = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(recipeList);
+        recyclerAdapter = new RecyclerAdapter(recipeList,this);
         recyclerView.setAdapter(recyclerAdapter);
 
         // For Recommending recipes
@@ -93,6 +94,7 @@ public class MainPage extends AppCompatActivity {
             String query = searchTextBox.getText().toString();
             apiRequestGET(query,recyclerAdapter,"20");
         });
+
     }
 
     public static String Recommend_trois()
@@ -205,4 +207,8 @@ public class MainPage extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onItemClick(int position) {
+        System.out.println("EVERYTHING WAS SUCCESSFULL");
+    }
 }
