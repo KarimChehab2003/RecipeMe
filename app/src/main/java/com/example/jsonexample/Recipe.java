@@ -20,7 +20,7 @@ public class Recipe {
         this.id = id;
         this.name = name;
         this.time = time;
-        this.description = description;
+        this.description = description.replace("â€™","'");
         this.instructions = instructions;
         this.videoURL = videoURL;
         this.imageURL = imageURL;

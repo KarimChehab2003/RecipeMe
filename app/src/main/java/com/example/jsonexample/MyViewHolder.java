@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView recipeImage;
-    TextView recipeName,recipeTime,recipeReview;
+    TextView recipeName,recipeTime,recipeReview, recipeDesc;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -17,5 +17,6 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         recipeName = itemView.findViewById(R.id.recipeName);
         recipeTime = itemView.findViewById(R.id.recipeTime);
         recipeReview = itemView.findViewById(R.id.recipeReview);
+        recipeDesc = itemView.findViewById(R.id.recipeDesc);
     }
 }

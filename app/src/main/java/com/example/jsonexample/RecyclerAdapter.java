@@ -27,6 +27,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.recipeName.setText(items.get(position).name);
         holder.recipeTime.setText(items.get(position).time + " mins");
         holder.recipeReview.setText(String.valueOf(items.get(position).score));
+        holder.recipeDesc.setText(items.get(position).description);
+
         Picasso.get()
                 .load(items.get(position).imageURL)
                 .into(holder.recipeImage);
@@ -35,5 +37,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void clearData() {
+        if (items != null) {
+            items.clear();
+        }
     }
 }
