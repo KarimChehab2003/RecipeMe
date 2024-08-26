@@ -1,5 +1,6 @@
 package com.example.jsonexample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
+
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -62,6 +65,11 @@ public class MainPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        String currentUserName = intent.getStringExtra("currentUserName");
+        String currentUserID = intent.getStringExtra("currentUserID");
+        System.out.println(currentUserName +" " +currentUserID + " THIS IS WHERE WE LOOOOOOOOOOOOOOOOOOOOOK");
 
         // Setting up textBox and searchButton
         TextView searchTextBox = findViewById(R.id.textQuery);

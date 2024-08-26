@@ -39,6 +39,10 @@ public class Login extends AppCompatActivity {
 
             //intent to next page with the made user
             Intent intent = new Intent(this,MainPage.class);
+
+            //Intent Extras that contain username and ID
+            intent.putExtra("currentUserName",loggedin.getName());
+            intent.putExtra("currentUserID",String.valueOf(loggedin.getId()));
             startActivity(intent);
 
            // Toast.makeText(this, "logged in successfully", Toast.LENGTH_SHORT).show();
