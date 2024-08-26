@@ -1,11 +1,12 @@
 package com.example.jsonexample;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
-public class Recipe {
+public class Recipe implements Serializable {
     public Integer id ;
     public String name;
     public String time;
