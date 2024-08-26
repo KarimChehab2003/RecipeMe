@@ -1,17 +1,21 @@
 package com.example.jsonexample;
 
+import android.net.Uri;
+
+import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
-public class Recipe {
+public class Recipe implements Serializable {
     public Integer id ;
     public String name;
     public String time;
     public String description;
     public List<String> instructions;
-    public String videoURL;
+    public Uri videoURL;
     public String imageURL;
     public Map<String,Integer> nutritionFacts;
     public Float score;
@@ -22,7 +26,7 @@ public class Recipe {
         this.time = time;
         this.description = description.replace("â€™","'");
         this.instructions = instructions;
-        this.videoURL = videoURL;
+        this.videoURL = Uri.parse(videoURL);
         this.imageURL = imageURL;
         this.nutritionFacts = nutritionFacts;
         this.score = score;

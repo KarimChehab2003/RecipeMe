@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.JSONExample" parent="Base.Theme.JSONExample" />
+
+    <style name="Theme.AppCompat.Light.DarkActionBar" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
