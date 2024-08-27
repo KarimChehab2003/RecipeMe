@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,16 +52,21 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
         RecyclerView history_recyclerView = findViewById(R.id.history_recyclerView);
 
         recipes_list = new ArrayList<>();
-         history_adapter recyc_hist_fav = new history_adapter(recipes_list,getApplicationContext());
+         history_adapter recyc_hist_fav = new history_adapter(recipes_list,getApplicationContext(),this);
 
           retrieved_records = dbh.getHistory(Integer.parseInt(currentUserID));
 
         history_recyclerView.setLayoutManager(new LinearLayoutManager(this));
         history_recyclerView.setAdapter(recyc_hist_fav);
 
-        while(retrieved_records.moveToNext()){
+        if(retrieved_records != null)
+        { while(retrieved_records.moveToNext()){
             apiRequestGET(retrieved_records.getString(1),recyc_hist_fav,"10" , retrieved_records.getInt(0));
         }
+        } else {
+            Toast.makeText(this,"Nothing to show",Toast.LENGTH_LONG).show();
+        }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -102,7 +109,12 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
                                 JSONObject nutrition = recipe.optJSONObject("nutrition");
                                 addNutritionToRecipe(nutrition,recipeNutrition);
 
-                                float score = (float) recipe.optDouble("score", 1.000);
+                                JSONObject recipeRating = recipe.optJSONObject("user_ratings");
+
+                                float score = (float) recipeRating.optDouble("score", 1.00) * 100;
+                                DecimalFormat df = new DecimalFormat("0.00");
+                                score = Float.parseFloat(df.format(score));
+
 
                                 Recipe newRecipe = new Recipe(
                                         Integer.parseInt(recipe.optString("id", "0")),

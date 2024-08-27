@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -73,15 +74,6 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
             return true;
         });
 
-        MenuItem menuitem2 = menu.findItem(R.id.menu_favourites);
-        menuitem2.setOnMenuItemClickListener(item->{
-            Intent intent = new Intent(this,favourites.class);
-            intent.putExtra("currentUserName",currentUserName);
-            intent.putExtra("currentUserID",currentUserID);
-            startActivity(intent);
-
-            return true;
-        });
         return true;
     }
 
@@ -162,7 +154,12 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
                                 JSONObject nutrition = recipe.optJSONObject("nutrition");
                                 addNutritionToRecipe(nutrition,recipeNutrition);
 
-                                float score = (float) recipe.optDouble("score", 1.000);
+                                JSONObject recipeRating = recipe.optJSONObject("user_ratings");
+
+                                float score = (float) recipeRating.optDouble("score", 1.00) * 100;
+                                DecimalFormat df = new DecimalFormat("0.00");
+                                score = Float.parseFloat(df.format(score));
+
 
                                 Recipe newRecipe = new Recipe(
                                         Integer.parseInt(recipe.optString("id", "0")),

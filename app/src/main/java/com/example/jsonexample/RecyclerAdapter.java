@@ -32,7 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> implemen
 
         holder.recipeName.setText(currentRecipe.name);
         holder.recipeTime.setText(currentRecipe.time + " mins");
-        holder.recipeReview.setText(String.valueOf(currentRecipe.score));
+        holder.recipeReview.setText(String.valueOf(currentRecipe.score + "% of people liked this recipe!"));
         holder.recipeDesc.setText(currentRecipe.description);
 
         Picasso.get()
