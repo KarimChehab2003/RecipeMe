@@ -25,7 +25,8 @@
         android:id="@+id/history_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/history_name"
+        android:layout_below="@+id/history_name"
+        android:layout_toEndOf="@+id/history_imageView"
         android:textColor="@color/black"
         tools:text="Description"/>
 
@@ -33,7 +34,8 @@
         android:id="@+id/history_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/history_description"
+        android:layout_below="@+id/history_description"
+        android:layout_toEndOf="@+id/history_imageView"
         android:textColor="@color/black"
         tools:text="time"/>
 
@@ -42,6 +44,6 @@
         android:layout_height="2dp"
         android:background="#DAD8D8"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/history_imageView"/>
+        android:layout_below="@+id/history_time"/>
 
 </RelativeLayout>

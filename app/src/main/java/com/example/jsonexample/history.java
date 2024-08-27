@@ -49,16 +49,16 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
 
         RecyclerView history_recyclerView = findViewById(R.id.history_recyclerView);
 
- recipes_list = new ArrayList<Recipe>();
-       RecyclerAdapter recyc_hist_fav = new RecyclerAdapter(recipes_list,this);
-        //recipes_list = dbh.getHistory(Integer.parseInt(currentUserID));
-          retrieved_records = dbh.getHistory(Long.parseLong(currentUserID));
+        recipes_list = new ArrayList<>();
+         history_adapter recyc_hist_fav = new history_adapter(recipes_list,getApplicationContext());
 
+          retrieved_records = dbh.getHistory(Integer.parseInt(currentUserID));
 
         history_recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        history_recyclerView.setAdapter(new history_adapter(recipes_list,getApplicationContext()));
+        history_recyclerView.setAdapter(recyc_hist_fav);
+
         while(retrieved_records.moveToNext()){
-            apiRequestGET(retrieved_records.getString(3),recyc_hist_fav,"1");
+            apiRequestGET(retrieved_records.getString(1),recyc_hist_fav,"10" , retrieved_records.getInt(0));
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -70,7 +70,7 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
 
 
 
-    public void apiRequestGET(String query,RecyclerAdapter recyclerAdapter, String size){
+    public void apiRequestGET(String query,history_adapter recyclerAdapter, String size , int recipe_id){
         if(size.equals("default"))
             size = "3";
 
@@ -124,7 +124,9 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
                                                 newRecipe.instructions.size() + " "+
                                                 newRecipe.nutritionFacts.size());
 
-                                recipes_list.add(newRecipe);
+                                if(newRecipe.id == recipe_id) {
+                                    recipes_list.add(newRecipe);
+                                }
 
                             }
 
@@ -177,7 +179,6 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
         // to be directed to the recipe info page
         Intent intent = new Intent(this,RecipeDetails.class);
         intent.putExtra("recipe" , recipes_list.get(position));
-
         startActivity(intent);
     }
 }

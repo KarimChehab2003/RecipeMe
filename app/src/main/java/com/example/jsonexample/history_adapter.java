@@ -29,8 +29,8 @@ public class history_adapter extends RecyclerView.Adapter<History_MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull History_MyViewHolder holder, int position) {
         holder.history_nameview.setText(recipes_list.get(position).name);
-        holder.history_nameview.setText(recipes_list.get(position).description);
-        holder.history_nameview.setText(recipes_list.get(position).time + " mins");
+        holder.history_descriptionview.setText(recipes_list.get(position).description);
+        holder.history_timeview.setText(recipes_list.get(position).time + " mins");
         Picasso.get()
                 .load(recipes_list.get(position).imageURL)
                 .into(holder.history_imageview);

@@ -22,6 +22,13 @@ public class Recipe implements Serializable {
         this.id = id;
     }
 
+    public Recipe(String name, String time, String description,String imageURL) {
+        this.name = name;
+        this.time = time;
+        this.description = description;
+        this.imageURL=imageURL;
+    }
+
     public Recipe(Integer id, String name, String time, String description, List<String> instructions, String videoURL, String imageURL, Map<String, Integer> nutritionFacts, Float score) {
         this.id = id;
         this.name = name;

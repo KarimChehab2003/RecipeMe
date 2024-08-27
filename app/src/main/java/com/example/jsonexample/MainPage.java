@@ -231,9 +231,9 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
 
     @Override
     public void onItemClick(int position) {
+        dbh.addToHistory(recipeList.get(position).id,Integer.parseInt(currentUserID),recipeList.get(position).name);
         Intent intent = new Intent(this,RecipeDetails.class);
         intent.putExtra("recipe" , recipeList.get(position));
-        dbh.addToHistory(Long.parseLong(currentUserID),recipeList.get(position).id,recipeList.get(position).name);
         startActivity(intent);
     }
 

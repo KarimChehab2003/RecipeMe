@@ -19,7 +19,7 @@ public class DBhelper extends SQLiteOpenHelper {
 
 
     public DBhelper(Context context) {
-        super(context, databaseName, null, 1);
+        super(context, databaseName, null, 2);
     }
 
     @Override
@@ -27,10 +27,15 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL("create table user (userID INTEGER Primary key Autoincrement , name text , email text , password text)");
 // creating history table
 
-        db.execSQL("create table history ( recipeID INTEGER  , userID INTEGER ,recipeName text ,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
+//        db.execSQL("create table history (userID INTEGER , recipeID INTEGER  , recipeName text,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
+        db.execSQL("CREATE TABLE history (userID INTEGER , recipeID INTEGER, recipeName TEXT, " +
+                "FOREIGN KEY (userID) REFERENCES user(userID), " +
+                "PRIMARY KEY (recipeID, userID))");
 // creating favorites table
-        db.execSQL("create table favorites ( recipeID INTEGER , userID INTEGER , recipeName text ,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
-
+//        db.execSQL("create table favorites ( userID INTEGER ,recipeID INTEGER ,  recipeName text ,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
+        db.execSQL("CREATE TABLE favorites (recipeID INTEGER, userID INTEGER, recipeName TEXT, " +
+                "FOREIGN KEY (userID) REFERENCES user(userID), " +
+                "PRIMARY KEY (recipeID, userID))");
         }
 
     @Override
@@ -78,12 +83,12 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     // for history
-    public Cursor getHistory(long id){
+    public Cursor getHistory(int id){
 
 
         userDatabase = getReadableDatabase();
 
-        Cursor rtdata =userDatabase.rawQuery("select recipeID recipeName from history where userID = ?" , new String []{String.valueOf(id)});
+        Cursor rtdata =userDatabase.rawQuery("select recipeID , recipeName from history where userID = ?" , new String []{String.valueOf(id)});
 
         if(rtdata.getCount() ==0){
             // no users with these information
@@ -95,13 +100,13 @@ public class DBhelper extends SQLiteOpenHelper {
 
     }
 
-    public void addToHistory (long userID , long recipeID,String recipeName){
+    public void addToHistory (int ParamrecipeID,int ParamuserID ,String ParamrecipeName){
 
         ContentValues recipeData = new ContentValues();
 
-        recipeData.put("recipeID",recipeID);
-        recipeData.put("userID",userID);
-        recipeData.put("recipeName", recipeName);
+        recipeData.put("recipeID",ParamrecipeID);
+        recipeData.put("userID",ParamuserID);
+        recipeData.put("recipeName", ParamrecipeName);
 
         userDatabase = getWritableDatabase();
         userDatabase.insert("history",null,recipeData);
