@@ -57,7 +57,7 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
     private List<Recipe> recipeList;
     String currentUserName;
     String currentUserID;
-
+   DBhelper dbh = new DBhelper(this);
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -233,6 +233,7 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
     public void onItemClick(int position) {
         Intent intent = new Intent(this,RecipeDetails.class);
         intent.putExtra("recipe" , recipeList.get(position));
+        dbh.addToHistory(Long.parseLong(currentUserID),recipeList.get(position).id,recipeList.get(position).name);
         startActivity(intent);
     }
 

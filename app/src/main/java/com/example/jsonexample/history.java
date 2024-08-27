@@ -35,7 +35,7 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
     String currentUserName;
     String currentUserID;
     DBhelper dbh = new DBhelper(this);
-    Map<String , ArrayList<Recipe>> potential_results = new HashMap<String, ArrayList<Recipe>>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +58,7 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
         history_recyclerView.setLayoutManager(new LinearLayoutManager(this));
         history_recyclerView.setAdapter(new history_adapter(recipes_list,getApplicationContext()));
         while(retrieved_records.moveToNext()){
-            apiRequestGET(retrieved_records.getString(3) ,recyc_hist_fav , "1" );
-
-
+            apiRequestGET(retrieved_records.getString(3),recyc_hist_fav,"1");
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -88,7 +86,9 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         // Handle JSON Object response
+
                         try {
+
                             JSONArray recipes = response.getJSONArray("results"); //Object containing returned results
                             for (int i = 0; i < recipes.length(); i++) {
                                 JSONObject recipe = recipes.getJSONObject(i); // for each recipe in recipes
@@ -125,9 +125,7 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
                                                 newRecipe.nutritionFacts.size());
 
                                 recipes_list.add(newRecipe);
-//                                if(!potential_results.containsKey(query)){
-//                                    potential_results.put(query,new ArrayList<Recipe>().add(newRecipe));
-//                                }
+
                             }
 
                             // Notify adapter about data changes on the main thread
@@ -172,8 +170,14 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
         }
     }
 
+
+
     @Override
     public void onItemClick(int position) {
         // to be directed to the recipe info page
+        Intent intent = new Intent(this,RecipeDetails.class);
+        intent.putExtra("recipe" , recipes_list.get(position));
+
+        startActivity(intent);
     }
 }

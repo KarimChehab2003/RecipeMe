@@ -95,12 +95,12 @@ public class DBhelper extends SQLiteOpenHelper {
 
     }
 
-    public void addToHistory (User user , long recipeID,String recipeName){
+    public void addToHistory (long userID , long recipeID,String recipeName){
 
         ContentValues recipeData = new ContentValues();
 
         recipeData.put("recipeID",recipeID);
-        recipeData.put("userID",user.getId());
+        recipeData.put("userID",userID);
         recipeData.put("recipeName", recipeName);
 
         userDatabase = getWritableDatabase();
@@ -110,12 +110,12 @@ public class DBhelper extends SQLiteOpenHelper {
 
     }
 
-    public void addToFavorites (User user , long recipeID,String recipeName){
+    public void addToFavorites (long userID, long recipeID,String recipeName){
 
         ContentValues recipeData = new ContentValues();
 
         recipeData.put("recipeID",recipeID);
-        recipeData.put("userID",user.getId());
+        recipeData.put("userID",userID);
         recipeData.put("recipeName", recipeName);
 
         userDatabase = getWritableDatabase();
@@ -125,15 +125,15 @@ public class DBhelper extends SQLiteOpenHelper {
 
     }
 
-    public void removeFromHistory (User user, long recipeID){
+    public void removeFromHistory (long userID, long recipeID){
         userDatabase=getWritableDatabase();
-        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{user.getId(),recipeID});
+        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{userID,recipeID});
 
     }
 
-    public void removeFromFavorites (User user, long recipeID){
+    public void removeFromFavorites (long userID, long recipeID){
         userDatabase=getWritableDatabase();
-        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{user.getId(),recipeID});
+        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{userID,recipeID});
 
     }
 
