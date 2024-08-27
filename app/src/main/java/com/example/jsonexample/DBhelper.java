@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DBhelper extends SQLiteOpenHelper {
 
     public static String databaseName = "userDatabase";
@@ -67,6 +69,28 @@ public class DBhelper extends SQLiteOpenHelper {
         }else{
             if (rtdata.moveToFirst()) {
                 retrieved = new User(rtdata.getLong(0), rtdata.getString(1), rtdata.getString(2), rtdata.getString(3));
+            }
+        }
+        rtdata.close();
+        userDatabase.close();
+        return retrieved;
+
+    }
+
+    // for history
+    public ArrayList<Recipe> getHistory(int id){
+        ArrayList<Recipe> retrieved = null;
+
+        userDatabase = getReadableDatabase();
+
+        Cursor rtdata =userDatabase.rawQuery("select recipeID recipeName from history where userID = ?" , new String []{String.valueOf(id)});
+
+        if(rtdata.getCount() ==0){
+            // no users with these information
+            return null;
+        }else{
+            if (rtdata.moveToFirst()) {
+                retrieved = new ArrayList<Recipe>();
             }
         }
         rtdata.close();

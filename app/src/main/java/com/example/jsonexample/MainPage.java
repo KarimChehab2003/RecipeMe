@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,11 +56,33 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
     private RecyclerView recyclerView;
     private RecyclerAdapter recyclerAdapter;
     private List<Recipe> recipeList;
+    String currentUserName;
+    String currentUserID;
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainpagemenu , menu);
+        MenuItem menuitem = menu.findItem(R.id.menu_history);
+
+        menuitem.setOnMenuItemClickListener(item->{
+            Intent intent = new Intent(this,histroy.class);
+            intent.putExtra("currentUserName",currentUserName);
+            intent.putExtra("currentUserID",currentUserID);
+            startActivity(intent);
+
+            return true;
+        });
+
+        MenuItem menuitem2 = menu.findItem(R.id.menu_favourites);
+        menuitem2.setOnMenuItemClickListener(item->{
+            Intent intent = new Intent(this,favourites.class);
+            intent.putExtra("currentUserName",currentUserName);
+            intent.putExtra("currentUserID",currentUserID);
+            startActivity(intent);
+
+            return true;
+        });
         return true;
     }
 
@@ -69,8 +92,8 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        String currentUserName = intent.getStringExtra("currentUserName");
-        String currentUserID = intent.getStringExtra("currentUserID");
+        currentUserName = intent.getStringExtra("currentUserName");
+        currentUserID = intent.getStringExtra("currentUserID");
 
         // Setting up textBox and searchButton
         TextView searchTextBox = findViewById(R.id.textQuery);

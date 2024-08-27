@@ -16,6 +16,11 @@ public class Recipe {
     public Map<String,Integer> nutritionFacts;
     public Float score;
 
+    public Recipe(String name, Integer id) {
+        this.name = name;
+        this.id = id;
+    }
+
     public Recipe(Integer id, String name, String time, String description, List<String> instructions, String videoURL, String imageURL, Map<String, Integer> nutritionFacts, Float score) {
         this.id = id;
         this.name = name;
@@ -27,4 +32,5 @@ public class Recipe {
         this.nutritionFacts = nutritionFacts;
         this.score = score;
     }
+
 }
