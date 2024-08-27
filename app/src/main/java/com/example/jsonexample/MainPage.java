@@ -231,6 +231,9 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
 
     @Override
     public void onItemClick(int position) {
-        System.out.println("EVERYTHING WAS SUCCESSFULL");
+        Intent intent = new Intent(this,RecipeDetails.class);
+        intent.putExtra("recipe" , recipeList.get(position));
+        startActivity(intent);
     }
+
 }
