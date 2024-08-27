@@ -78,8 +78,8 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     // for history
-    public ArrayList<Recipe> getHistory(int id){
-        ArrayList<Recipe> retrieved = null;
+    public Cursor getHistory(long id){
+
 
         userDatabase = getReadableDatabase();
 
@@ -88,14 +88,10 @@ public class DBhelper extends SQLiteOpenHelper {
         if(rtdata.getCount() ==0){
             // no users with these information
             return null;
-        }else{
-            if (rtdata.moveToFirst()) {
-                retrieved = new ArrayList<Recipe>();
-            }
         }
-        rtdata.close();
+
         userDatabase.close();
-        return retrieved;
+        return rtdata;
 
     }
 
