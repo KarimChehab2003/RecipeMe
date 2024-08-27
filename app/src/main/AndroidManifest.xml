@@ -15,7 +15,7 @@
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".histroy"
+            android:name=".history"
             android:exported="false" />
         <activity
             android:name=".favourites"

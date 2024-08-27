@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,7 +65,7 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
         MenuItem menuitem = menu.findItem(R.id.menu_history);
 
         menuitem.setOnMenuItemClickListener(item->{
-            Intent intent = new Intent(this,histroy.class);
+            Intent intent = new Intent(this, history.class);
             intent.putExtra("currentUserName",currentUserName);
             intent.putExtra("currentUserID",currentUserID);
             startActivity(intent);
