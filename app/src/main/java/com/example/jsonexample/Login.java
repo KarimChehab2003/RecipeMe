@@ -13,8 +13,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class Login extends AppCompatActivity {
+
     public User loggedin;
     DBhelper dbh = new DBhelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,18 +38,14 @@ public class Login extends AppCompatActivity {
         if( loggedin == null){
             Toast.makeText(this, "No users with such info", Toast.LENGTH_SHORT).show();
         }else{
-
-            //intent to next page with the made user
+            //intent to next page with the loggedIn user
             Intent intent = new Intent(this,MainPage.class);
 
-            //Intent Extras that contain username and ID
+            //Intent Extras that contain username and ID of loggedIn user
             intent.putExtra("currentUserName",loggedin.getName());
             intent.putExtra("currentUserID",String.valueOf(loggedin.getId()));
             startActivity(intent);
 
-           // Toast.makeText(this, "logged in successfully", Toast.LENGTH_SHORT).show();
-
         }
     }
-
 }

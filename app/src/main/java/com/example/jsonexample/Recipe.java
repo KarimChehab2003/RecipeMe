@@ -1,8 +1,6 @@
 package com.example.jsonexample;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
@@ -17,17 +15,6 @@ public class Recipe implements Serializable {
     public Map<String,Integer> nutritionFacts;
     public Float score;
 
-    public Recipe(String name, Integer id) {
-        this.name = name;
-        this.id = id;
-    }
-
-    public Recipe(String name, String time, String description,String imageURL) {
-        this.name = name;
-        this.time = time;
-        this.description = description;
-        this.imageURL=imageURL;
-    }
 
     public Recipe(Integer id, String name, String time, String description, List<String> instructions, String videoURL, String imageURL, Map<String, Integer> nutritionFacts, Float score) {
         this.id = id;

@@ -1,22 +1,27 @@
 package com.example.jsonexample;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import cz.msebera.android.httpclient.Header;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,39 +29,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-enum suggestionIngredients {
-    TOMATO,
-    LETTUCE,
-    CHICKEN,
-    BEEF,
-    CARROT,
-    POTATO,
-    ONION,
-    GARLIC,
-    CHEESE,
-    BUTTER,
-    MILK,
-    EGG,
-    FLOUR,
-    SUGAR,
-    SALT,
-    PEPPER,
-    RICE,
-    PASTA,
-    BREAD,
-    FISH;
-}
+import cz.msebera.android.httpclient.Header;
 
-public class MainPage extends AppCompatActivity implements RecyclerViewInterface {
+public class favorites extends AppCompatActivity implements RecyclerViewInterface {
 
-    private static final String TAG = "MainActivity";
-
-    private RecyclerView recyclerView;
-    private RecyclerAdapter recyclerAdapter;
-    private List<Recipe> recipeList;
-
+    List<Recipe> recipes_list;
+    Cursor retrieved_records;
+    String TAG ="favorites_activity";
     String currentUserName;
     String currentUserID;
     DBhelper dbh = new DBhelper(this);
@@ -77,15 +57,15 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
             return true;
         });
 
-        menuitem2.setOnMenuItemClickListener(item->{
-            Intent intent = new Intent(this, favorites.class);
+        menuitem2.setVisible(false);
+
+        menuitem3.setOnMenuItemClickListener(item->{
+            Intent intent = new Intent(this, MainPage.class);
             intent.putExtra("currentUserName",currentUserName);
             intent.putExtra("currentUserID",currentUserID);
             startActivity(intent);
             return true;
         });
-
-        menuitem3.setVisible(false);
 
         return true;
     }
@@ -93,50 +73,41 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_favorites);
 
-        Intent intent = getIntent();
+        Intent intent =getIntent();
         currentUserName = intent.getStringExtra("currentUserName");
         currentUserID = intent.getStringExtra("currentUserID");
 
-        // Setting up textBox and searchButton
-        TextView searchTextBox = findViewById(R.id.textQuery);
-        Button searchButton = findViewById(R.id.searchButton);
+        RecyclerView favorites_recyclerView = findViewById(R.id.favorites_recyclerView);
 
-        // Setting up recycler view
-        recyclerView = findViewById(R.id.recommendationsView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recipes_list = new ArrayList<>();
+        favorites_adapter fav_adapter = new favorites_adapter(recipes_list,getApplicationContext(),this);
 
-        // Initialize recipe list and adapter
-        recipeList = new ArrayList<>();
-        recyclerAdapter = new RecyclerAdapter(recipeList,this);
-        recyclerView.setAdapter(recyclerAdapter);
+        retrieved_records = dbh.getFavorites(Integer.parseInt(currentUserID));
 
-        // For Recommending recipes
-        apiRequestGET(Recommend_trois(),recyclerAdapter,"default");
+        favorites_recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        favorites_recyclerView.setAdapter(fav_adapter);
 
-        //Make the GET request when clicked on search
-        searchButton.setOnClickListener(v -> {
-            recyclerAdapter.clearData();
-            String query = searchTextBox.getText().toString();
-            apiRequestGET(query,recyclerAdapter,"20");
-        });
-
-    }
-
-    public static String Recommend_trois()
-    {
-        StringBuilder recIngs = new StringBuilder("");
-        for(int i =0 ; i < 3; i++)
+        if(retrieved_records != null)
         {
-            suggestionIngredients[] ing = suggestionIngredients.values();
-            Random rand = new Random();
-            recIngs.append(ing[rand.nextInt(ing.length)]).append(" ");
+            while(retrieved_records.moveToNext()){
+                apiRequestGET(retrieved_records.getString(1),fav_adapter,"10" , retrieved_records.getInt(0));
+            }
+        } else {
+            Toast.makeText(this,"Nothing to show",Toast.LENGTH_LONG).show();
         }
-        return recIngs.toString().toLowerCase();
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
     }
 
-    public void apiRequestGET(String query,RecyclerAdapter recyclerAdapter, String size){
+
+    public void apiRequestGET(String query,favorites_adapter recyclerAdapter, String size , int recipe_id){
         if(size.equals("default"))
             size = "3";
 
@@ -172,6 +143,7 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
                                 DecimalFormat df = new DecimalFormat("0.00");
                                 score = Float.parseFloat(df.format(score));
 
+
                                 Recipe newRecipe = new Recipe(
                                         Integer.parseInt(recipe.optString("id", "0")),
                                         recipe.optString("name", ""),
@@ -184,7 +156,11 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
                                         score
                                 );
 
-                                recipeList.add(newRecipe);
+                                if(newRecipe.id == recipe_id) {
+                                    recipes_list.add(newRecipe);
+                                    break;
+                                }
+
                             }
 
                             // Notify adapter about data changes on the main thread
@@ -229,14 +205,16 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
         }
     }
 
+
     @Override
     public void onItemClick(int position) {
-        dbh.addToHistory(recipeList.get(position).id,Integer.parseInt(currentUserID),recipeList.get(position).name);
+        // to be directed to the recipe info page
         Intent intent = new Intent(this,RecipeDetails.class);
-        intent.putExtra("recipe" , recipeList.get(position));
+        intent.putExtra("recipe" , recipes_list.get(position));
         intent.putExtra("currentUserID",currentUserID);
         intent.putExtra("currentUserName",currentUserName);
         startActivity(intent);
     }
+
 
 }

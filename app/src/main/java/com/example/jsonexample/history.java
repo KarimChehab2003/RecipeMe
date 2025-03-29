@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +33,7 @@ import java.util.Map;
 import cz.msebera.android.httpclient.Header;
 
 public class history extends AppCompatActivity implements RecyclerViewInterface {
+
     List<Recipe> recipes_list;
     Cursor retrieved_records;
     String TAG ="history_activity";
@@ -38,6 +41,34 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
     String currentUserID;
     DBhelper dbh = new DBhelper(this);
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainpagemenu , menu);
+
+        MenuItem menuitem = menu.findItem(R.id.menu_history);
+        MenuItem menuitem2 = menu.findItem(R.id.menu_favorites);
+        MenuItem menuitem3 = menu.findItem(R.id.menu_home);
+
+        menuitem.setVisible(false);
+
+        menuitem2.setOnMenuItemClickListener(item->{
+            Intent intent = new Intent(this, favorites.class);
+            intent.putExtra("currentUserName",currentUserName);
+            intent.putExtra("currentUserID",currentUserID);
+            startActivity(intent);
+            return true;
+        });
+
+        menuitem3.setOnMenuItemClickListener(item->{
+            Intent intent = new Intent(this, MainPage.class);
+            intent.putExtra("currentUserName",currentUserName);
+            intent.putExtra("currentUserID",currentUserID);
+            startActivity(intent);
+            return true;
+        });
+
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +83,21 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
         RecyclerView history_recyclerView = findViewById(R.id.history_recyclerView);
 
         recipes_list = new ArrayList<>();
-         history_adapter recyc_hist_fav = new history_adapter(recipes_list,getApplicationContext(),this);
+        history_adapter hist_adapter = new history_adapter(recipes_list,getApplicationContext(),this);
 
-          retrieved_records = dbh.getHistory(Integer.parseInt(currentUserID));
+        retrieved_records = dbh.getHistory(Integer.parseInt(currentUserID));
 
         history_recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        history_recyclerView.setAdapter(recyc_hist_fav);
+        history_recyclerView.setAdapter(hist_adapter);
 
         if(retrieved_records != null)
-        { while(retrieved_records.moveToNext()){
-            apiRequestGET(retrieved_records.getString(1),recyc_hist_fav,"10" , retrieved_records.getInt(0));
-        }
+        {
+            while(retrieved_records.moveToNext()){
+                apiRequestGET(retrieved_records.getString(1),hist_adapter,"10" , retrieved_records.getInt(0));
+            }
         } else {
             Toast.makeText(this,"Nothing to show",Toast.LENGTH_LONG).show();
         }
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -74,7 +105,6 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
             return insets;
         });
     }
-
 
 
     public void apiRequestGET(String query,history_adapter recyclerAdapter, String size , int recipe_id){
@@ -93,9 +123,7 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         // Handle JSON Object response
-
                         try {
-
                             JSONArray recipes = response.getJSONArray("results"); //Object containing returned results
                             for (int i = 0; i < recipes.length(); i++) {
                                 JSONObject recipe = recipes.getJSONObject(i); // for each recipe in recipes
@@ -128,16 +156,9 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
                                         score
                                 );
 
-                                System.out.println(
-                                        newRecipe.id +" "+
-                                                newRecipe.name +" "+
-                                                newRecipe.time +" "+
-                                                newRecipe.description +" "+
-                                                newRecipe.instructions.size() + " "+
-                                                newRecipe.nutritionFacts.size());
-
                                 if(newRecipe.id == recipe_id) {
                                     recipes_list.add(newRecipe);
+                                    break;
                                 }
 
                             }
@@ -185,12 +206,13 @@ public class history extends AppCompatActivity implements RecyclerViewInterface 
     }
 
 
-
     @Override
     public void onItemClick(int position) {
         // to be directed to the recipe info page
         Intent intent = new Intent(this,RecipeDetails.class);
         intent.putExtra("recipe" , recipes_list.get(position));
+        intent.putExtra("currentUserID",currentUserID);
+        intent.putExtra("currentUserName",currentUserName);
         startActivity(intent);
     }
 }

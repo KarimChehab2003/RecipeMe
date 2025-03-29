@@ -5,11 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-
-import java.util.ArrayList;
 
 public class DBhelper extends SQLiteOpenHelper {
 
@@ -17,26 +12,25 @@ public class DBhelper extends SQLiteOpenHelper {
 
     SQLiteDatabase userDatabase;
 
-
     public DBhelper(Context context) {
         super(context, databaseName, null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //Create User Table
         db.execSQL("create table user (userID INTEGER Primary key Autoincrement , name text , email text , password text)");
-// creating history table
 
-//        db.execSQL("create table history (userID INTEGER , recipeID INTEGER  , recipeName text,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
+        // creating history table
         db.execSQL("CREATE TABLE history (userID INTEGER , recipeID INTEGER, recipeName TEXT, " +
                 "FOREIGN KEY (userID) REFERENCES user(userID), " +
                 "PRIMARY KEY (recipeID, userID))");
-// creating favorites table
-//        db.execSQL("create table favorites ( userID INTEGER ,recipeID INTEGER ,  recipeName text ,Foreign Key (userID) REFERENCES user(userID) , Primary key(recipeID,userID))");
-        db.execSQL("CREATE TABLE favorites (recipeID INTEGER, userID INTEGER, recipeName TEXT, " +
+
+        // creating favorites table
+        db.execSQL("CREATE TABLE favorites (userID INTEGER , recipeID INTEGER, recipeName TEXT, " +
                 "FOREIGN KEY (userID) REFERENCES user(userID), " +
                 "PRIMARY KEY (recipeID, userID))");
-        }
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
@@ -66,12 +60,9 @@ public class DBhelper extends SQLiteOpenHelper {
 
         userDatabase = getReadableDatabase();
 
-        Cursor rtdata =userDatabase.rawQuery("select * from user where email = ? and password = ?" , new String []{email,password});
+        Cursor rtdata = userDatabase.rawQuery("select * from user where email = ? and password = ?" , new String []{email,password});
 
-        if(rtdata.getCount() ==0){
-            // no users with these information
-            return null;
-        }else{
+        if(rtdata.getCount() != 0){
             if (rtdata.moveToFirst()) {
                 retrieved = new User(rtdata.getLong(0), rtdata.getString(1), rtdata.getString(2), rtdata.getString(3));
             }
@@ -79,12 +70,10 @@ public class DBhelper extends SQLiteOpenHelper {
         rtdata.close();
         userDatabase.close();
         return retrieved;
-
     }
 
     // for history
     public Cursor getHistory(int id){
-
 
         userDatabase = getReadableDatabase();
 
@@ -92,15 +81,15 @@ public class DBhelper extends SQLiteOpenHelper {
 
         if(rtdata.getCount() ==0){
             // no users with these information
+            userDatabase.close();
             return null;
         }
 
         userDatabase.close();
         return rtdata;
-
     }
 
-    public void addToHistory (int ParamrecipeID,int ParamuserID ,String ParamrecipeName){
+    public void addToHistory (int ParamrecipeID, int ParamuserID ,String ParamrecipeName){
 
         ContentValues recipeData = new ContentValues();
 
@@ -112,10 +101,26 @@ public class DBhelper extends SQLiteOpenHelper {
         userDatabase.insert("history",null,recipeData);
         userDatabase.close();
 
-
     }
 
-    public void addToFavorites (long userID, long recipeID,String recipeName){
+    // for favorites
+    public Cursor getFavorites(int id){
+
+        userDatabase = getReadableDatabase();
+
+        Cursor rtdata =userDatabase.rawQuery("select recipeID , recipeName from favorites where userID = ?" , new String []{String.valueOf(id)});
+
+        if(rtdata.getCount() ==0){
+            // no users with these information
+            userDatabase.close();
+            return null;
+        }
+
+        userDatabase.close();
+        return rtdata;
+    }
+
+    public void addToFavorites (int recipeID , int userID , String recipeName){
 
         ContentValues recipeData = new ContentValues();
 
@@ -126,20 +131,11 @@ public class DBhelper extends SQLiteOpenHelper {
         userDatabase = getWritableDatabase();
         userDatabase.insert("favorites",null,recipeData);
         userDatabase.close();
-
-
-    }
-
-    public void removeFromHistory (long userID, long recipeID){
-        userDatabase=getWritableDatabase();
-        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{userID,recipeID});
-
     }
 
     public void removeFromFavorites (long userID, long recipeID){
         userDatabase=getWritableDatabase();
-        userDatabase.execSQL("Delete from history where userID = ? and recipeID = ? ",new Long[]{userID,recipeID});
-
+        userDatabase.execSQL("Delete from favorites where userID = ? and recipeID = ? ",new Long[]{userID,recipeID});
     }
 
 }

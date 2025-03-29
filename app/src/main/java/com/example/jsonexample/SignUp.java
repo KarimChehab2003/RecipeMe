@@ -56,13 +56,10 @@ public class SignUp extends AppCompatActivity {
                 }
                 case no_caps:{
                     Toast.makeText(this,"your password should include capitals",Toast.LENGTH_LONG).show();
-
                     break;
                 }
                 case no_digits:{
-
                     Toast.makeText(this,"your password should include digits",Toast.LENGTH_LONG).show();
-
                     break;
                 }
                 case no_symbols:{
@@ -72,7 +69,7 @@ public class SignUp extends AppCompatActivity {
             }
            }
 
-           }
+        }
 
         if(!correctflag){
             return; // in case of incorrect information
@@ -87,7 +84,6 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-
     public Boolean validemail (String email){
 
         Pattern mailpat = Pattern.compile(".+@.+.com");
@@ -99,7 +95,6 @@ public class SignUp extends AppCompatActivity {
 
 
     public passstate validpass(String pass){
-
 
         passstate verdict = null;
         Pattern checklength = Pattern.compile(".{8,20}");
@@ -126,9 +121,7 @@ public class SignUp extends AppCompatActivity {
             verdict = passstate.valid;
         }
 
-
         return verdict;
     }
-
 
 }

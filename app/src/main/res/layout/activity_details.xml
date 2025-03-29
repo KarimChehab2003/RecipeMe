@@ -70,7 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"></TableLayout>
+                android:layout_marginBottom="10dp">
+            </TableLayout>
 
             <TextView
                 android:id="@+id/recipeDetailsInstructionsTitle"
@@ -92,6 +93,32 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
             </ScrollView>
+
+            <TextView
+                android:id="@+id/favorites_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Do You Like this Recipe?"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/recipeScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/favorite_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:contentDescription="favorite Icon"
+                android:src="@drawable/icon_favorite_unclicked" />
 
         </LinearLayout>
     </ScrollView>

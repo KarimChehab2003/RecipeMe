@@ -15,14 +15,17 @@
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".favorites"
+            android:exported="false"
+            android:theme="@style/recipeMePalette" />
+        <activity
             android:name=".RecipeDetails"
             android:exported="false"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/recipeMePalette" />
         <activity
             android:name=".history"
             android:exported="false"
-            android:theme="@style/recipeMePalette"/>
-
+            android:theme="@style/recipeMePalette" />
         <activity
             android:name=".SignUp"
             android:exported="false"

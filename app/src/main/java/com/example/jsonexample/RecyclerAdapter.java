@@ -3,7 +3,6 @@ package com.example.jsonexample;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +12,6 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> implements RecyclerViewInterface {
 
     List<Recipe> items;
-    private AdapterView.OnItemClickListener listener;
     private final RecyclerViewInterface recyclerInterface;
 
     public RecyclerAdapter(List<Recipe> items, RecyclerViewInterface recyclerInterface) {
@@ -40,7 +38,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<MyViewHolder> implemen
                 .into(holder.recipeImage);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 int pos = holder.getAdapterPosition();
