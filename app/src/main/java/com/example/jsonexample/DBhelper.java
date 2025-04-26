@@ -138,4 +138,23 @@ public class DBhelper extends SQLiteOpenHelper {
         userDatabase.execSQL("Delete from favorites where userID = ? and recipeID = ? ",new Long[]{userID,recipeID});
     }
 
+    // for profile
+    public String getEmailById(long id) {
+        String email = null;
+
+        userDatabase = getReadableDatabase();
+
+        Cursor cursor = userDatabase.rawQuery("SELECT email FROM user WHERE userID = ?", new String[]{String.valueOf(id)});
+
+        if (cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                email = cursor.getString(0);
+            }
+        }
+
+        cursor.close();
+        userDatabase.close();
+        return email;
+    }
+
 }

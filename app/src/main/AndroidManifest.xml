@@ -35,6 +35,10 @@
             android:exported="false"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".Profile"
+            android:exported="false"
+            android:theme="@style/recipeMePalette" />
+        <activity
             android:name=".Welcome"
             android:exported="true"
             android:theme="@style/AppTheme">

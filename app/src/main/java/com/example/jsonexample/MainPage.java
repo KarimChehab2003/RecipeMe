@@ -68,6 +68,7 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
         MenuItem menuitem = menu.findItem(R.id.menu_history);
         MenuItem menuitem2 = menu.findItem(R.id.menu_favorites);
         MenuItem menuitem3 = menu.findItem(R.id.menu_home);
+        MenuItem menuitem4 = menu.findItem(R.id.menu_profile);
 
         menuitem.setOnMenuItemClickListener(item->{
             Intent intent = new Intent(this, history.class);
@@ -86,6 +87,15 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
         });
 
         menuitem3.setVisible(false);
+
+        menuitem4.setOnMenuItemClickListener(item->{
+            Intent intent = new Intent(this, Profile.class);
+            intent.putExtra("currentUserName",currentUserName);
+            intent.putExtra("currentUserID",currentUserID);
+            intent.putExtra("currentUserEmail",dbh.getEmailById(Long.parseLong(currentUserID)));
+            startActivity(intent);
+            return true;
+        });
 
         return true;
     }
