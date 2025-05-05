@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_voice_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:text="Click the Mic Button and speak"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/mic_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/signup_btn_orange"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Mic" />
+
+    <TextView
+        android:id="@+id/mic_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text=""
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/mic_search_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_welcome_btn1"
+        android:textColor="#f2a02b"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Search" />
+
+</LinearLayout>

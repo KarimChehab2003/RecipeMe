@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +60,7 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
 
     String currentUserName;
     String currentUserID;
+    String micResult;
     DBhelper dbh = new DBhelper(this);
 
     @Override
@@ -108,10 +110,12 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
         Intent intent = getIntent();
         currentUserName = intent.getStringExtra("currentUserName");
         currentUserID = intent.getStringExtra("currentUserID");
+        micResult = intent.getStringExtra("micSearchResult");
 
         // Setting up textBox and searchButton
         TextView searchTextBox = findViewById(R.id.textQuery);
         Button searchButton = findViewById(R.id.searchButton);
+        ImageView micImage = findViewById(R.id.micButton);
 
         // Setting up recycler view
         recyclerView = findViewById(R.id.recommendationsView);
@@ -122,8 +126,8 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
         recyclerAdapter = new RecyclerAdapter(recipeList,this);
         recyclerView.setAdapter(recyclerAdapter);
 
-        // For Recommending recipes
-        apiRequestGET(Recommend_trois(),recyclerAdapter,"default");
+        // For Initializing recipes
+        apiRequestGET(Recommend_trois(micResult),recyclerAdapter,"default");
 
         //Make the GET request when clicked on search
         searchButton.setOnClickListener(v -> {
@@ -132,18 +136,30 @@ public class MainPage extends AppCompatActivity implements RecyclerViewInterface
             apiRequestGET(query,recyclerAdapter,"20");
         });
 
+        // Go to the voice page
+        micImage.setOnClickListener(v -> {
+            Intent intent2 = new Intent(this, Voice.class);
+            intent2.putExtra("currentUserID", currentUserID);
+            intent2.putExtra("currentUserName", currentUserName);
+            startActivity(intent2);
+        });
+
     }
 
-    public static String Recommend_trois()
+    public static String Recommend_trois(String micResult)
     {
-        StringBuilder recIngs = new StringBuilder("");
-        for(int i =0 ; i < 3; i++)
-        {
-            suggestionIngredients[] ing = suggestionIngredients.values();
-            Random rand = new Random();
-            recIngs.append(ing[rand.nextInt(ing.length)]).append(" ");
+        if(micResult != null && !micResult.trim().isEmpty()){
+            return micResult;
+        }else{
+            StringBuilder recIngs = new StringBuilder("");
+            for(int i =0 ; i < 3; i++)
+            {
+                suggestionIngredients[] ing = suggestionIngredients.values();
+                Random rand = new Random();
+                recIngs.append(ing[rand.nextInt(ing.length)]).append(" ");
+            }
+            return recIngs.toString().toLowerCase();
         }
-        return recIngs.toString().toLowerCase();
     }
 
     public void apiRequestGET(String query,RecyclerAdapter recyclerAdapter, String size){
